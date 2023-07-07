@@ -41,6 +41,6 @@ describe("Checking if value in the square is chenged or not after clicking", () 
         const buttons = screen.getAllByRole("button")
         fireEvent.click(buttons[1]);
         fireEvent.click(buttons[2]);
-        expect(buttons[1].textContent).toBe("O");
+        expect(buttons[2].textContent).toBe("O");
       });
   });
