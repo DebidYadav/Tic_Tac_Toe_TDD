@@ -1,18 +1,46 @@
-import React from 'react';
-import Board from './Board';
-import Square from './Board';
-import shallow from '@testing-library/react';
+import React from "react";
+import Square from "./Board";
+import Board from "./Board";
+import { fireEvent, render, screen } from "@testing-library/react";
 
-describe('Checking for crash',() =>{
-    it('Board render without crashing',() => {
-        let squares = Array(9).fill(null);
-        shallow(<Board squares = {squares}/>)
+
+describe("Checking crash", ()=>{
+    it('Checking if Square renders without crashing', () => {
+        render(<Square/>);
+      });
+      it('Checking if board renders without crashing', () => {
+        render(<Board/>);
+      });
+});
+
+describe("If Board is displayed",()=>{
+    it("Should be enable",()=>{
+        render(<Square/>);
+        const buttons = screen.getAllByRole("button");
+        buttons.forEach((button)=>{
+            expect(button).not.toBeDisabled();
+        }) 
     });
-    it('Square render without crashing',() => {
-        shallow(<Square/>)
+    it("There should be 9 squares",()=>{
+        render(<Board/>)
+        const squares = screen.getAllByRole("button");
+        expect(squares.length).toBe(9);
     });
 });
 
-describe("Is board is displayed",() =>{
-    
-})
+describe("Checking if value in the square is chenged or not after clicking", () => {
+    test("Changed to X in first click", () => {
+      render(<Square />);
+      const buttons = screen.getAllByRole("button")
+      fireEvent.click(buttons[1]);
+      fireEvent.click(buttons[2]);    
+      expect(buttons[1].textContent).toBe("X");
+    });
+    test("Changed to O on second click", () => {
+        render(<Square />);
+        const buttons = screen.getAllByRole("button")
+        fireEvent.click(buttons[1]);
+        fireEvent.click(buttons[2]);
+        expect(buttons[1].textContent).toBe("O");
+      });
+  });
